@@ -15,6 +15,7 @@ export async function POST({ request, cookies }) {
         );
         return json({ success: true });
     } catch (err) {
+        console.error('Failed to update points:', err);
         return json({ error: 'Database error' }, { status: 500 });
     }
 }
