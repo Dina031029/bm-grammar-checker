@@ -22,5 +22,6 @@ export async function load({ cookies, depends }) {
             return { user: null };
         }
     }
+    
     return { user: null };
 }

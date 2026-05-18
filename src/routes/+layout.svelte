@@ -21,6 +21,7 @@
     $: if (user.profile_image) {
         timestamp = Date.now();
     }
+    
 </script>
 
 {#if isAuthPage}
@@ -50,6 +51,7 @@
                 <a href="/" class={$page.url.pathname === '/' ? 'active' : ''}>📝 Penyemak Tatabahasa</a>
                 <a href="/quiz" class={$page.url.pathname === '/quiz' ? 'active' : ''}>🎮 Kuiz Interaktif</a>
                 <a href="/note" class={$page.url.pathname === '/note' ? 'active' : ''}>📚 Koleksi Nota</a>
+                <a href="/source" class={$page.url.pathname === '/source' ? 'active' : ''}>🙏 Sumber Rujukan</a>
                 <a href="/profile" class={$page.url.pathname === '/profile' ? 'active' : ''}>👤 Profil Saya</a>
 
                 {#if user.role === 'admin'}
