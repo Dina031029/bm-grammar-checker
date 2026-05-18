@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { HF_TOKEN, HF_ENDPOINT_URL } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const WORD_LIMIT = 20;
 const MODEL_NAME = 'qwen2-5-0-5b-instruct-xse';
@@ -91,13 +91,13 @@ function cleanAIOutput(output, fallback) {
 }
 
 function getChatCompletionUrl() {
-	const baseUrl = HF_ENDPOINT_URL.replace(/\/+$/, '');
+	const baseUrl = env.HF_ENDPOINT_URL.replace(/\/+$/, '');
 	return `${baseUrl}/v1/chat/completions`;
 }
 
 async function checkWithHuggingFace(text) {
-	if (!HF_TOKEN || !HF_ENDPOINT_URL) {
-		throw new Error('HF_TOKEN atau HF_ENDPOINT_URL belum ditetapkan dalam .env');
+	if (!env.HF_TOKEN || !env.HF_ENDPOINT_URL) {
+		throw new Error('HF_TOKEN atau HF_ENDPOINT_URL belum ditetapkan.');
 	}
 
 	const payload = {
@@ -122,7 +122,7 @@ async function checkWithHuggingFace(text) {
 	const response = await fetch(getChatCompletionUrl(), {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${HF_TOKEN}`,
+			Authorization: `Bearer ${env.HF_TOKEN}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(payload)
