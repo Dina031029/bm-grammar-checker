@@ -24,8 +24,6 @@ export const actions = {
 			});
 		}
 
-		let newUserId;
-
 		try {
 			const [existing] = await pool.execute(
 				'SELECT id FROM users WHERE email = ?',
@@ -39,7 +37,7 @@ export const actions = {
 				});
 			}
 
-			const [result] = await pool.execute(
+			await pool.execute(
 				`INSERT INTO users 
 				(fullname, email, password, role, points, badge, profile_image)
 				VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -54,11 +52,17 @@ export const actions = {
 				]
 			);
 
-			newUserId = result.insertId;
+			// Get the new user ID after insert
+			const [newUserRows] = await pool.execute(
+				'SELECT id FROM users WHERE email = ?',
+				[email]
+			);
 
-			if (!newUserId) {
-				throw new Error('User berjaya didaftarkan tetapi ID tidak dijana.');
+			if (newUserRows.length === 0 || !newUserRows[0].id) {
+				throw new Error('Akaun berjaya dimasukkan tetapi ID pengguna tidak dijumpai.');
 			}
+
+			const newUserId = newUserRows[0].id;
 
 			cookies.set('session', String(newUserId), {
 				path: '/',
@@ -72,7 +76,8 @@ export const actions = {
 				message: error.message,
 				code: error.code,
 				errno: error.errno,
-				sqlMessage: error.sqlMessage
+				sqlMessage: error.sqlMessage,
+				sql: error.sql
 			});
 
 			return fail(500, {
