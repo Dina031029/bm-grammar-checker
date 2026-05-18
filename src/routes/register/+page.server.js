@@ -23,9 +23,19 @@ export const actions = {
                 'INSERT INTO users (fullname, email, password, role, points, badge) VALUES (?, ?, ?, "user", 0, "Rookie")',
                 [fullname, email, password]
             );
-        } catch (err) {
-            console.error(err);
-            return fail(500, { message: 'Ralat pangkalan data. Sila cuba lagi.', error: true });
+        } 
+        
+        catch (error) {
+            console.error('Register Database Error:', {
+                message: error.message,
+                code: error.code,
+                errno: error.errno,
+                sqlMessage: error.sqlMessage
+            });
+
+            return fail(500, {
+                error: 'Ralat pangkalan data. Sila cuba lagi.'
+            });
         }
         
         throw redirect(303, '/login');
