@@ -1,11 +1,20 @@
 import { defineConfig } from 'drizzle-kit';
+import 'dotenv/config';
 
 export default defineConfig({
 	schema: './src/lib/server/db/schema.js',
 	out: './drizzle',
 	dialect: 'mysql',
 	dbCredentials: {
-		// We put the link directly here to bypass the .env error
-		url: "mysql://root:@127.0.0.1:3306/melayu_db",
-	},
+		host: process.env.DB_HOST,
+		port: Number(process.env.DB_PORT) || 4000,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_DATABASE,
+		ssl: process.env.DB_CA
+			? {
+					ca: process.env.DB_CA
+				}
+			: undefined
+	}
 });
