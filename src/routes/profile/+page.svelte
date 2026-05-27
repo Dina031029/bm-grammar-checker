@@ -1,6 +1,6 @@
 <script>
     import { enhance } from '$app/forms';
-    import { invalidateAll } from '$app/navigation'; 
+    import { invalidate } from '$app/navigation'; // Use invalidate, not just invalidateAll
     export let data;
     export let form;
 
@@ -9,8 +9,6 @@
     // Reactive declaration for the image URL
     let previewUrl;
     $: if (user) {
-        // If profile_image starts with 'http', it's from Cloudinary
-        // If it's 'default-avatar.png', it's local
         previewUrl = (user.profile_image === 'default-avatar.png' || !user.profile_image)
             ? '/default-avatar.png' 
             : (user.profile_image.startsWith('http') 
@@ -43,8 +41,8 @@
             use:enhance={() => {
                 return async ({ result }) => {
                     if (result.type === 'success') {
-                        // Memaksa +layout.server.js berjalan semula untuk kemaskini sidebar
-                        await invalidateAll(); 
+                        // Refresh the 'app:user' data so the sidebar updates
+                        await invalidate('app:user'); 
                     }
                 };
             }}
