@@ -16,9 +16,11 @@
     $: isAuthPage = $page.url.pathname.startsWith('/login') || $page.url.pathname.startsWith('/register');
 
     let timestamp = Date.now();
-    $: profileImgPath = user.profile_image === 'default-avatar.png' 
+$:  profileImgPath = !user.profile_image || user.profile_image === 'default-avatar.png'
         ? '/default-avatar.png' 
-        : `/uploads/profile/${user.profile_image}?t=${timestamp}`;
+        : (user.profile_image.startsWith('http') 
+            ? user.profile_image 
+            : `/uploads/profile/${user.profile_image}?t=${timestamp}`);
 
     $: if (user.profile_image) {
         timestamp = Date.now();
