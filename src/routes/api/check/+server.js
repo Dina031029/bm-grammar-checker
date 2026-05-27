@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
 const WORD_LIMIT = 20;
-const MODEL_NAME = 'qwen2-5-0-5b-instruct-xse';
+const MODEL_NAME = 'mesolitica---malaysian-llama-vny';
 
 function buildPrompt(text) {
 	return `

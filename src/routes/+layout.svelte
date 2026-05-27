@@ -2,6 +2,8 @@
     import { page } from '$app/stores';
     import { enhance } from '$app/forms';
     export let data;
+    import { dev } from '$app/environment';
+    import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
     $: user = data?.user || { 
         fullname: "Tetamu", 
@@ -21,6 +23,8 @@
     $: if (user.profile_image) {
         timestamp = Date.now();
     }
+
+    injectAnalytics({ mode: dev ? 'development' : 'production' });
     
 </script>
 
