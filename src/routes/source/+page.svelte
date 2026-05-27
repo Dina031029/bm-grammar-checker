@@ -5,14 +5,7 @@
 			type: 'AI Model Platform',
 			description:
 				'Digunakan sebagai platform untuk mengakses dan menguji model kecerdasan buatan bagi fungsi penyemakan tatabahasa Bahasa Melayu.',
-			link: 'https://huggingface.co/'
-		},
-		{
-			title: 'Qwen Model',
-			type: 'AI Language Model',
-			description:
-				'Digunakan sebagai model AI untuk membantu proses pembetulan ayat, ejaan, kata sendi dan struktur ayat Bahasa Melayu.',
-			link: 'https://huggingface.co/Qwen'
+			link: 'https://huggingface.co/RichardErkhov/mesolitica_-_malaysian-llama-3-8b-instruct-16k-gguf'
 		},
 		{
 			title: 'Dewan Bahasa dan Pustaka',
@@ -34,6 +27,21 @@
 			description:
 				'Digunakan untuk menyimpan data pengguna, kuiz, nota, markah dan maklumat berkaitan sistem pembelajaran.',
 			link: 'https://www.mysql.com/'
+		},
+		
+		{
+			title: 'Nota Tatabahasa',
+			type: 'Rujukan',
+			description:
+				'Rujukan nota tatabahasa Bahasa Melayu yang digunakan sebagai panduan dalam penyediaan kandungan dan nota pembelajaran sistem.',
+			link: 'https://panitiabmskseripasir.blogspot.com/2010/01/nota-tatabahasa-untuk-pelajar.html'
+		},
+		{
+			title: 'Cikgu Sazali',
+			type: 'Rujukan',
+			description:
+				'Blog pendidikan yang menyediakan bahan rujukan, nota dan penerangan tatabahasa Bahasa Melayu untuk membantu pembangunan nota pembelajaran sistem.',
+			link: 'https://cikgusazali.blogspot.com/'
 		}
 	];
 </script>
@@ -81,13 +89,17 @@
 		</div>
 
 		<aside class="note-card">
-			<h2>Nota Penghargaan</h2>
+			<h2>Informasi</h2>
 			<p>
 				Sistem ini dibangunkan untuk tujuan akademik sebagai sebahagian daripada
 				Final Year Project. Semua sumber dirujuk dengan niat menghargai hasil kerja
 				pemilik asal dan menyokong pembelajaran Bahasa Melayu secara digital.
 			</p>
-
+			<div class="credit-box">
+				<p class="label">Dibimbing oleh</p>
+				<strong>Prof Madya Ts Dr Sarah Flora Anak Samson Juan</strong>
+				<span>Pensyarah, Fakulti Sains Komputer dan Teknologi Maklumat,UNIMAS</span>
+			</div>
 			<div class="credit-box">
 				<p class="label">Dibangunkan oleh</p>
 				<strong>NURDINA BINTI ZAMRI</strong>
