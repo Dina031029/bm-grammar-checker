@@ -30,7 +30,7 @@
 		},
 		
 		{
-			title: 'Nota Tatabahasa',
+			title: 'Panitia Bahahasa Melayu SK Seripasir, Batu Pahat',
 			type: 'Rujukan',
 			description:
 				'Rujukan nota tatabahasa Bahasa Melayu yang digunakan sebagai panduan dalam penyediaan kandungan dan nota pembelajaran sistem.',
@@ -103,6 +103,7 @@
 			<div class="credit-box">
 				<p class="label">Dibangunkan oleh</p>
 				<strong>NURDINA BINTI ZAMRI</strong>
+				<span>Pelajar Tahun 4, Fakulti Sains Komputer dan Teknologi Maklumat, UNIMAS</span>
 				<span>AI-Powered Bahasa Melayu Grammar Learning and Checker Web System</span>
 			</div>
 		</aside>
