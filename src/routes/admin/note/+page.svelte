@@ -106,7 +106,7 @@
         {#each (data?.notes || []) as note (note.id)}
             <div class="admin-note-card">
                 <img 
-                    src={note.cover_image === 'default-note.png' ? '/default-note.png' : `/uploads/notes/${note.cover_image}`} 
+                    src={note.cover_image || '/default-note.png'}
                     alt="Kulit Nota" 
                     class="note-thumb" 
                 />

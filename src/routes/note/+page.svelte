@@ -42,7 +42,11 @@
         {#each filteredNotes as note}
             <div class="note-card">
                 <div class="image-box">
-                    <img src={note.cover_image === 'default-note.png' ? '/default-note.png' : `/uploads/notes/${note.cover_image}`} alt={note.title} class="cover-img" />
+                    <img
+                        src={note.cover_image || '/default-note.png'}
+                        alt={note.title}
+                        class="cover-img"
+                    />
                 </div>
                 <div class="note-body">
                     <span class="category-tag">{note.category}</span>
