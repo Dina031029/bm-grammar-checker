@@ -1,26 +1,26 @@
 <script>
     import { enhance } from '$app/forms';
-    import { invalidateAll } from '$app/navigation'; // Tambah import ini
+    import { invalidateAll } from '$app/navigation'; 
     export let data;
     export let form;
 
-    // Reactive declaration to ensure we always have the latest user data
     $: user = data?.user;
 
-    // The Preview URL needs a 'cache buster' (?t=...) so the browser 
-    // doesn't keep showing the old image after you upload a new one.
+    // Reactive declaration for the image URL
     let previewUrl;
     $: if (user) {
-        previewUrl = user.profile_image === 'default-avatar.png' 
+        // If profile_image starts with 'http', it's from Cloudinary
+        // If it's 'default-avatar.png', it's local
+        previewUrl = (user.profile_image === 'default-avatar.png' || !user.profile_image)
             ? '/default-avatar.png' 
-            : `/uploads/profile/${user.profile_image}?t=${Date.now()}`;
+            : (user.profile_image.startsWith('http') 
+                ? user.profile_image 
+                : `/uploads/profile/${user.profile_image}?t=${Date.now()}`);
     }
 
-    // This updates the preview INSTANTLY when the user selects a file from their computer
     function handleFileChange(e) {
         const file = e.target.files[0];
         if (file) {
-            // Revoke old object URL to avoid memory leaks
             if (previewUrl && previewUrl.startsWith('blob:')) URL.revokeObjectURL(previewUrl);
             previewUrl = URL.createObjectURL(file);
         }

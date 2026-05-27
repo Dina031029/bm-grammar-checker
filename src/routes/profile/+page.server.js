@@ -1,7 +1,14 @@
 import { pool } from '$lib/server/db.js';
 import { fail, redirect } from '@sveltejs/kit';
-import fs from 'fs';
-import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from '$env/static/private';
+
+// Initialize Cloudinary
+cloudinary.config({
+    cloud_name: CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY,
+    api_secret: CLOUDINARY_API_SECRET
+});
 
 /**
  * Helper function to determine the rank/badge based on user points.
@@ -59,34 +66,34 @@ export const actions = {
         const email = data.get('email');
         const password = data.get('password');
         const imageFile = data.get('profile_pic');
+        
+        let imageUrl = data.get('current_image') || 'default-avatar.png';
 
-        let imageFileName = data.get('current_image') || 'default-avatar.png';
-
+        // Handle Image Upload to Cloudinary
         if (imageFile && imageFile.size > 0) {
             try {
-                const ext = path.extname(imageFile.name);
-                const fileName = `user-${userId}-${Date.now()}${ext}`;
-                const uploadDir = path.join(process.cwd(), 'static', 'uploads', 'profile');
-                
-                if (!fs.existsSync(uploadDir)) {
-                    fs.mkdirSync(uploadDir, { recursive: true });
-                }
-
                 const arrayBuffer = await imageFile.arrayBuffer();
-                fs.writeFileSync(path.join(uploadDir, fileName), Buffer.from(arrayBuffer));
-                
-                imageFileName = fileName;
-                console.log("Image saved successfully to:", path.join(uploadDir, fileName));
+                const buffer = Buffer.from(arrayBuffer);
+
+                // Upload to Cloudinary
+                const result = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload_stream({ folder: 'profiles' }, (error, result) => {
+                        if (error) reject(error);
+                        resolve(result);
+                    }).end(buffer);
+                });
+
+                imageUrl = result.secure_url; // Save the URL, not the file name
             } catch (err) {
-                console.error("File Upload Error:", err);
-                return fail(500, { message: 'Gagal memuat naik imej.' });
+                console.error("Cloudinary Upload Error:", err);
+                return fail(500, { message: 'Gagal memuat naik imej ke Cloudinary.' });
             }
         }
 
         try {
             await pool.execute(
                 'UPDATE users SET fullname = ?, email = ?, password = ?, profile_image = ? WHERE id = ?',
-                [fullname, email, password, imageFileName, userId]
+                [fullname, email, password, imageUrl, userId]
             );
             return { success: true, message: 'Profil berjaya dikemaskini!' };
         } catch (err) {
