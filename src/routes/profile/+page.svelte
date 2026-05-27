@@ -1,6 +1,6 @@
 <script>
     import { enhance } from '$app/forms';
-    import { invalidate } from '$app/navigation'; // Use invalidate, not just invalidateAll
+    import { invalidate } from '$app/navigation'; // ONLY this import for invalidation
     export let data;
     export let form;
 
@@ -24,6 +24,21 @@
         }
     }
 </script>
+
+<form 
+    method="POST" 
+    action="?/updateProfile" 
+    enctype="multipart/form-data"
+    use:enhance={() => {
+        return async ({ result }) => {
+            if (result.type === 'success') {
+                // This triggers the 'app:user' dependency in your layout
+                await invalidate('app:user'); 
+            }
+        };
+    }}
+>
+    </form>
 
 {#if user}
 <div class="profile-wrapper">
